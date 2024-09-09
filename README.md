@@ -1,5 +1,3 @@
-# E-commerce
-
 # E-Commerce Website
 
 ## Project Overview
