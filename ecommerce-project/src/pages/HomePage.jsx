@@ -10,12 +10,20 @@ export function HomePage({ cart }) {
 
 
   useEffect(() => {
+    console.log('Fetching products...');
     axios.get('/api/products')
-      .then((response) => setProducts(response.data));
-
-
-
+      .then((response) => {
+        console.log('Products fetched:', response.data);
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching products:', error);
+      });
   }, []);
+
+
+
+
 
 
 

@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
       const deliveryTimeMs = Date.now() + option.deliveryDays * 24 * 60 * 60 * 1000;
       return {
         ...option.toJSON(),
-        estimatedDeliveryTimeMs: deliveryTimeMs
+        estimatedDeliveryTime: new Date(deliveryTimeMs).toISOString()
       };
     });
   }

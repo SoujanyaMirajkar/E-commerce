@@ -6,18 +6,27 @@ import { DeliveryOption } from '../models/DeliveryOption.js';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const expand = req.query.expand;
+  const expand = req.query.expand || '';
   let cartItems = await CartItem.findAll();
 
-  if (expand === 'product') {
-    cartItems = await Promise.all(cartItems.map(async (item) => {
-      const product = await Product.findByPk(item.productId);
-      return {
-        ...item.toJSON(),
-        product
+  cartItems = await Promise.all(cartItems.map(async (item) => {
+    let itemData = item.toJSON();
+
+    if (expand.includes('product')) {
+      itemData.product = await Product.findByPk(item.productId);
+    }
+
+    if (expand.includes('deliveryOption') || expand.includes('estimatedDeliveryTime')) {
+      const deliveryOption = await DeliveryOption.findByPk(item.deliveryOptionId);
+      const deliveryTimeMs = Date.now() + deliveryOption.deliveryDays * 24 * 60 * 60 * 1000;
+      itemData.deliveryOption = {
+        ...deliveryOption.toJSON(),
+        estimatedDeliveryTime: new Date(deliveryTimeMs).toISOString()
       };
-    }));
-  }
+    }
+
+    return itemData;
+  }));
 
   res.json(cartItems);
 });
