@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
 import { formatMoney } from '../../utils/money';
+import axios from 'axios';
 
-export function DeliveryOptions({ cartItem, deliveryOptions }) {
+export function DeliveryOptions({ cartItem, deliveryOptions, loadCart }) {
     return (
         <div className="delivery-options">
             <div className="delivery-options-title">
@@ -14,23 +15,20 @@ export function DeliveryOptions({ cartItem, deliveryOptions }) {
                 if (deliverOption.priceCents > 0) {
                     priceString = `${formatMoney(deliverOption.priceCents)}-Shipping`;
                 }
+
+                const updateDeliveryOption = async () => {
+                    await axios.put(`/api/cart-items/${cartItem.productId}`, {
+                        deliveryOptionId: deliverOption.id
+                    });
+                    await loadCart();
+                }
                 return (
-                    <div key={deliverOption.id} className="delivery-option">
+                    <div key={deliverOption.id} className="delivery-option"
+                        onClick={updateDeliveryOption}
+                    >
                         <input type="radio"
                             checked={cartItem.deliveryOptionId === deliverOption.id}
-                            onChange={() => {
-                                setCart((prevCart) => {
-                                    return prevCart.map((item) => {
-                                        if (item.productId === cartItem.productId) {
-                                            return {
-                                                ...item,
-                                                deliveryOptionId: deliverOption.id
-                                            }
-                                        }
-                                        return item;
-                                    })
-                                })
-                            }}
+                            readOnly
                             className="delivery-option-input"
                             name={`delivery-option-${cartItem.productId}`}
                             value={deliverOption.id}

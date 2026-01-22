@@ -20,7 +20,9 @@ select {
   cursor: pointer;
 }
 
-input, select, button {
+input,
+select,
+button {
   font-family: Roboto, Arial;
 }
 
@@ -100,6 +102,6 @@ select {
 }
 
 select:focus,
-input:focus {
+input:not([type='radio']):focus {
   outline: 2px solid rgb(25, 135, 84);
 }
