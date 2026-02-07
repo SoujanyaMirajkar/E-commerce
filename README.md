@@ -17,10 +17,10 @@ A full-stack e-commerce application built with a modern React frontend and a rob
 *   **Nodemon** - For hot-reloading during development
 
 **Features**
-Product Listing: Browse available products with images and prices.
-Shopping Cart: Add products to the cart and view the total cost.
-Checkout Flow: User-friendly form for shipping and payment details.
-Responsive Design: Works on desktop and mobile devices.
+*   Product Listing: Browse available products with images and prices.
+*   Shopping Cart: Add products to the cart and view the total cost.
+*   Checkout Flow: User-friendly form for shipping and payment details.
+*   Responsive Design: Works on desktop and mobile devices.
 
 ---
 
